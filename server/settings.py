@@ -102,6 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# 自定義用戶模型
+AUTH_USER_MODEL = "management.User"
+
 
 # 國際化設定
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
