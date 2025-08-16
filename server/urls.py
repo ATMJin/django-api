@@ -16,12 +16,9 @@ server 專案的 URL 設定。
 """
 
 from django.contrib import admin
-from django.urls import path
-from server.apps.management.views import hello_world
-from server.apps.management.views import HelloWorldView
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/practice/hello/", hello_world),
-    path("api/v1/practice/hello-class/", HelloWorldView.as_view()),
+    path("api/v1/practice/", include("server.apps.playground.urls")),
 ]
