@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     # Local APPS
     "server.apps.management",
+    "server.apps.playground",
 ]
 
 # 中介軟體設定
