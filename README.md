@@ -36,3 +36,7 @@ Django 操作
     訪問 http://127.0.0.1:8000/admin 看到 Admin 畫面
 
 建立超級使用者：uv run manage.py createsuperuser
+
+admin
+userName: abc
+password: 1qaz@WSX
