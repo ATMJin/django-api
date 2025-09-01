@@ -22,31 +22,20 @@ class HelloWorldView(APIView):
         return Response({"message": "Hello, world! POST"})
 
 
-class GetAllItemsView(APIView):
-    def get(self, request):
-        items = Item.objects.all()
-        serializer = ItemSerializer(items, many=True)
-        return Response(serializer.data)
+class ItemViewSet(APIView):
+    def get(self, request, pk=None):
+        if pk:
+            try:
+                item = Item.objects.get(pk=pk)
+                serializer = ItemSerializer(item)
+                return Response(serializer.data)
+            except Item.DoesNotExist:
+                return Response({"error": "Item not found"}, status=404)
+        else:
+            items = Item.objects.all()
+            serializer = ItemSerializer(items, many=True)
+            return Response(serializer.data)
 
-
-class GetItemDetailView(APIView):
-    def get(self, request, pk):
-        try:
-            item = Item.objects.get(pk=pk)
-        except Item.DoesNotExist:
-            return Response({"error": "Item not found"}, status=404)
-        serializer = ItemSerializer(item)
-        return Response(serializer.data)
-
-
-class GetNameItemsView(APIView):
-    def get(self, request, name):
-        items = Item.objects.filter(name=name)
-        serializer = ItemSerializer(items, many=True)
-        return Response(serializer.data)
-
-
-class CreateItemView(APIView):
     def post(self, request):
         try:
             if not request.data.get("name"):
@@ -56,5 +45,25 @@ class CreateItemView(APIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=201)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+
+    def delete(self, request, pk):
+        try:
+            item = Item.objects.get(pk=pk)
+            item.delete()
+            return Response(status=204)
+        except Item.DoesNotExist:
+            return Response({"error": "Item not found"}, status=404)
+
+    def put(self, request, pk):
+        try:
+            item = Item.objects.get(pk=pk)
+            serializer = ItemSerializer(item, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+        except Item.DoesNotExist:
+            return Response({"error": "Item not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=400)

@@ -9,5 +9,11 @@ class ItemSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "description",
-            "is_active",
         )
+
+    def validate_name(self, value):
+        if not value:
+            raise serializers.ValidationError("Name field is required.")
+        elif Item.objects.filter(name=value).exists():
+            raise serializers.ValidationError("Item with this name already exists.")
+        return value
