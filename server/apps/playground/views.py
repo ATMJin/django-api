@@ -2,8 +2,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import PageNumberPagination
 from server.apps.playground.models import Item
 from server.apps.playground.serializer import ItemSerializer
+from server.utils.pagination import PageNumberWithSizePagination
 
 
 # Create your views here.
@@ -73,3 +75,7 @@ class HelloWorldView(APIView):
 class ItemViewSet(ModelViewSet):
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
+
+    # pagination_class = PageNumberPagination
+    pagination_class = PageNumberWithSizePagination
+    queryset = Item.objects.order_by("id")
