@@ -79,3 +79,4 @@ class ItemViewSet(ModelViewSet):
     # pagination_class = PageNumberPagination
     pagination_class = PageNumberWithSizePagination
     queryset = Item.objects.order_by("id")
+    page_size = 5
