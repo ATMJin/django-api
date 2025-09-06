@@ -1,14 +1,28 @@
 from rest_framework import serializers
-from server.apps.playground.models import Item
+from server.apps.playground.models import Item, ItemComment
+
+
+class ItemCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ItemComment
+        fields = (
+            "id",
+            "content",
+            "created_at",
+            "updated_at",
+        )
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    comments = ItemCommentSerializer(many=True, read_only=True)
+
     class Meta:
         model = Item
         fields = (
             "id",
             "name",
             "description",
+            "comments",
         )
 
     def validate_name(self, value):
