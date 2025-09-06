@@ -14,3 +14,14 @@ class Item(models.Model):
     def activate(self):
         self.is_active = True
         self.save()
+
+
+class ItemComment(models.Model):
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        related_name="comments",  # item.comments.all()
+    )
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
