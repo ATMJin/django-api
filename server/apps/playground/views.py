@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import OrderingFilter
 from server.apps.playground.models import Item
 from server.apps.playground.serializer import ItemSerializer
 from server.utils.pagination import PageNumberWithSizePagination
@@ -80,3 +81,6 @@ class ItemViewSet(ModelViewSet):
     pagination_class = PageNumberWithSizePagination
     queryset = Item.objects.order_by("id")
     page_size = 5
+
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["name", "id"]
