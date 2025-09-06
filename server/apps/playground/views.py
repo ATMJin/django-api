@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from server.apps.playground.models import Item
 from server.apps.playground.serializer import ItemSerializer
 from server.utils.pagination import PageNumberWithSizePagination
@@ -79,8 +79,13 @@ class ItemViewSet(ModelViewSet):
 
     # pagination_class = PageNumberPagination
     pagination_class = PageNumberWithSizePagination
-    queryset = Item.objects.order_by("id")
+    # queryset = Item.objects.order_by("id")
     page_size = 5
 
-    filter_backends = [OrderingFilter]
-    ordering_fields = ["name", "id"]
+    filter_backends = [  # 允許被使用的 filter 種類
+        OrderingFilter,  # 排序型的 filter
+        SearchFilter,  # 搜尋型的 filter
+    ]
+    ordering_fields = ["name", "id"]  # 排序型的 filter 允許使用者指定的欄位有哪些
+    ordering = ["-id"]  # 如果使用者沒有指定的話排序型 filter 要用來排序的欄位
+    search_fields = ["name", "description"]  # 關鍵字要在哪些欄位中被搜尋
