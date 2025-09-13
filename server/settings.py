@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_extensions",
     "django_filters",
+    "drf_spectacular",
     # Local APPS
     "server.apps.management",
     "server.apps.playground",
@@ -141,4 +142,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Django API",
+    "DESCRIPTION": "My Django API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": True,  # 文件是否顯示 Schema API
 }
