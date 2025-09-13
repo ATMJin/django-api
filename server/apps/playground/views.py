@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 from django_filters.rest_framework import DjangoFilterBackend
 from server.apps.playground.models import Item
 from server.apps.playground.serializer import ItemSerializer
@@ -92,3 +94,5 @@ class ItemViewSet(ModelViewSet):
     ordering = ["-id"]  # 如果使用者沒有指定的話排序型 filter 要用來排序的欄位
     search_fields = ["name", "description"]  # 關鍵字要在哪些欄位中被搜尋
     filterset_fields = ["is_active", "name"]
+
+    # permission_classes = [IsAuthenticatedOrReadOnly]

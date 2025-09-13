@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third Party APPS
     "rest_framework",
+    "rest_framework.authtoken",
     "django_extensions",
     "django_filters",
     "drf_spectacular",
+    "djoser",
     # Local APPS
     "server.apps.management",
     "server.apps.playground",
@@ -143,6 +145,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
 }
 
 SPECTACULAR_SETTINGS = {
@@ -151,3 +159,21 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": True,  # 文件是否顯示 Schema API
 }
+
+
+# server/settings.py
+
+DJOSER = {
+    "EMAIL_FRONTEND_PROTOCOL": "http",
+    "EMAIL_FRONTEND_DOMAIN": "localhost:3000",
+    "EMAIL_FRONTEND_SITE_NAME": "My Website",
+    "SEND_ACTIVATION_EMAIL": True,
+    "ACTIVATION_URL": "users/activate/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "users/password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "users/username/reset/confirm/{uid}/{token}",
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+EMAIL_FILE_PATH = BASE_DIR / "emails"
