@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "djoser",
     "rest_framework_simplejwt",
+    "corsheaders",
     # Local APPS
     "server.apps.management",
     "server.apps.playground",
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 
 # 中介軟體設定
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -187,3 +189,8 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "UPDATE_LAST_LOGIN": True,
 }
+
+
+# CORS
+
+CORS_ALLOW_ALL_ORIGINS = True
